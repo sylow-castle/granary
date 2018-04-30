@@ -56,23 +56,27 @@ EOS
 function main() {
     while read line
     do
+
+        HEAD=""
+        TAIL=""
         #赤にするかの判定
         red=$(expr match "${line}" "^\+.*$")
         if [ $red -gt 0 ]; then
-            echo -ne "\e[31m"
-            echo -n "${line}"
-            echo -e "\e[m"
+            HEAD="\e[31m"
+            TAIL="\e[m"
         else
             #緑にするかの判定
             green=$(expr match "${line}" "^\-.*$")
             if [ $green -gt 0 ]; then
-                echo -ne "\e[32m"
-                echo -n "${line}"
-                echo -e "\e[m"
-            else
-                echo "${line}"
+                HEAD="\e[32m"
+                TAIL="\e[m"
             fi
         fi
+
+        echo -ne ${HEAD}
+        echo -n "${line}"
+        echo -e ${TAIL}
+
     done
 }
 
