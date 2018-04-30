@@ -1,6 +1,41 @@
 #!/usr/bin/bash
 
-usage=`cat << EOS
+#コマンド一覧
+MAIN="main"
+HELP="help"
+
+function decide_command() {
+
+    meta="";
+    command=${MAIN};
+    while getopts ":h-:" opt; do
+        case "$opt" in
+            -)
+                case "${OPTARG}" in
+                    help)
+                        command=${HELP}
+                    ;;
+                    command)
+                        meta="echo "
+                    ;;
+                esac
+            ;;
+            h)
+                #-help指定のケースとまとめないのは数が少ないため。
+                command=${HELP}
+            ;;
+        esac
+    done
+
+    if [ "${meta}" = "" ] ; then
+        echo "${command}"
+    else
+        echo 'echo '${command}
+    fi
+}
+
+function help() {
+    usage=`cat << EOS
 <概要>
 標準入力の各行に対し、行頭の文字に合わせてその行の文字色を変更します。
 行頭の文字：文字色
@@ -10,49 +45,39 @@ usage=`cat << EOS
 
 <オプション>
  -h, --help：このヘルプを表示します。
+ --command：-指定したオプション（除--command）で実行する処理を表示します。
+    main：概要に記されている処理を実行します。
+    help：このヘルプを実行します。
 EOS
 `
+    echo "${usage}";
+}
 
-while getopts ":h-:" opt; do
-    case "$opt" in
-        -)
-        case "${OPTARG}" in
-            help)
-                #echo "helpがあ指定されました。"
-                echo "$usage"
-                exit 0
-            ;;
-        esac
-        ;;
-        h)
-            #-help指定のケースとまとめないのは数が少ないため。
-            #echo "hが指定されました。"
-            echo "$usage"
-            exit 0
-        ;;
-    esac
-done
-
-#標準入力に対して、行頭が+のときは赤く表示する
-#標準入力に対して、行頭が-のときは緑に表示する
-#どちらでもないときはデフォルト色で表示する
-while read line
-do
-    #赤にするかの判定
-    red=$(expr match "${line}" "^\+.*$")
-    if [ $red -gt 0 ]; then
-        echo -ne "\e[31m"
-        echo -n "${line}"
-        echo -e "\e[m"
-    else
-        #緑にするかの判定
-        green=$(expr match "${line}" "^\-.*$")
-        if [ $green -gt 0 ]; then
-            echo -ne "\e[32m"
+function main() {
+    while read line
+    do
+        #赤にするかの判定
+        red=$(expr match "${line}" "^\+.*$")
+        if [ $red -gt 0 ]; then
+            echo -ne "\e[31m"
             echo -n "${line}"
             echo -e "\e[m"
         else
-            echo "${line}"
+            #緑にするかの判定
+            green=$(expr match "${line}" "^\-.*$")
+            if [ $green -gt 0 ]; then
+                echo -ne "\e[32m"
+                echo -n "${line}"
+                echo -e "\e[m"
+            else
+                echo "${line}"
+            fi
         fi
-    fi
-done
+    done
+}
+
+#decide_commandでの返り値と、関数名を合わせているためにこの書き方。
+#返り値と関数名を合わせないなら、以下の凝は実装変更
+command=`decide_command $*`
+${command}
+
