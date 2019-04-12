@@ -81,7 +81,7 @@ function main() {
 }
 
 #decide_commandでの返り値と、関数名を合わせているためにこの書き方。
-#返り値と関数名を合わせないなら、以下の凝は実装変更
+#返り値と関数名を合わせないなら、以下の行は実装変更する
 command=`decide_command $*`
 ${command}
 
