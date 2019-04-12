@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Project DefaultTargets="Artifact" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+    <PropertyGroup>
+        <SrcDir>markdown</SrcDir>
+        <OutDir>html</OutDir>
+        <PdfDir>pdf</PdfDir>
+        <Distribution>dist.zip</Distribution>
+        <TmpDir>tmp</TmpDir>
+        <CssHtml>markdown.css.html</CssHtml>
+        <ChromePath>C:\Program Files (x86)\Google\Chrome\Application\chrome.exe</ChromePath>
+    </PropertyGroup>
+    <ItemGroup>
+        <CssHtml Include="$(CssHtml)" />
+        <Markdowns Include="$(SrcDir)\**\*.md">
+            <RelPath>%(RelativeDir)%(Filename)</RelPath>
+            <HtmlDir>$([System.String]::Copy('%(RelativeDir)').Replace('$(SrcDir)', '$(OutDir)'))</HtmlDir>
+            <HtmlPath>$([System.String]::Copy('%(RelPath)').Replace('$(SrcDir)', '$(OutDir)')).html</HtmlPath>
+            <PdfDir>$([System.String]::Copy('%(RelativeDir)').Replace('$(SrcDir)', '$(PdfDir)'))</PdfDir>
+            <PdfPath>$([System.String]::Copy('%(RelPath)').Replace('$(SrcDir)', '$(PdfDir)')).pdf</PdfPath>
+        </Markdowns>
+        <Images Include="$(SrcDir)\**\*.png;$(SrcDir)\**\*.jpg;$(SrcDir)\**\*.svg">
+            <RelPath>%(RelativeDir)%(Filename)</RelPath>
+            <HtmlDir>$([System.String]::Copy('%(RelativeDir)').Replace('$(SrcDir)', '$(OutDir)'))</HtmlDir>
+            <HtmlPath>$([System.String]::Copy('%(RelPath)').Replace('$(SrcDir)', '$(OutDir)'))%(Extension)</HtmlPath>
+        </Images>
+    </ItemGroup>
+    <Target Name="BuiltDirs">
+        <MakeDir Directories="$(OutDir)" Condition="!Exists('$(OutDir)')" />
+    </Target>
+    <Target Name="Artifact" DependsOnTargets="Artifact-Images;Artifact-Htmls" />
+    <Target Name="Artifact-Images" DependsOnTargets="BuiltDirs"
+        Inputs="@(Images)" 
+        Outputs="@(Images->'$(MSBuildProjectDirectory)\%(HtmlPath)')">
+        <Copy SourceFiles="@(Images)" DestinationFiles="@(Images->'%(HtmlPath)')" />
+    </Target>
+    <Target Name="CssFile" Inputs="@(CssHtml)" Outputs="@(CssHtml->'$(MSBuildProjectDirectory)\$(CssHtml)')">
+        <MakeDir Directories="$(TmpDir)" Condition="!Exists('$(OutDir)')" />
+        <Copy SourceFiles="@(CssHtml)" DestinationFiles="@($(CssHtml->'$(MSBuildProjectDirectory)\$(CssHtml)')" />
+    </Target>
+    <Target Name="Artifact-Htmls" DependsOnTargets="BuiltDirs;CssFile"
+        Inputs="@(Markdowns)" 
+        Outputs="@(Markdowns->'$(MSBuildProjectDirectory)\%(HtmlPath)')">
+        <!-- Pandocはディレクトリを作ってはくれない -->
+        <MakeDir Directories="%(Markdowns.HtmlDir)" Condition="!Exists('%(Markdowns.HtmlDir)')" />
+        <Exec Command="pandoc -s -H $(CssHtml) --toc --metadata pagetitle=&quot;%(Markdowns.FileName)&quot; -f gfm -t html -o %(Markdowns.HtmlPath) %(Markdowns.RelPath).md"/>
+    </Target>
+    <Target Name="PdfArtifact"  DependsOnTargets="Artifact"
+        Inputs="@(Markdowns)" 
+        Outputs="@(Markdowns->'$(MSBuildProjectDirectory)\%(PdfPath)')">
+        <MakeDir Directories="$(PdfDir)" Condition="!Exists('$PdfDir')" />
+        <MakeDir Directories="%(Markdowns.PdfDir)" Condition="!Exists('%(Markdowns.PdfDir)')" />
+        <Exec Command="&quot;$(ChromePath)&quot; --headless --print-to-pdf=&quot;$(MSBuildProjectDirectory)\%(Markdowns.PdfPath)&quot; $(MSBuildProjectDirectory)\%(Markdowns.HtmlPath)"/>
+    </Target>
+
+    <Target Name="Cleanuped">
+        <RemoveDir Directories="$(OutDir)" />
+        <RemoveDir Directories="$(PdfDir)" />
+    </Target>
+    <Target Name="ScratchArtifact" DependsOnTargets="Cleanuped;Artifact" />
+    <Target Name="ZipArtifact" DependsOnTargets="Artifact">
+      <Exec Command="powershell Compress-Archive '$(MSBuildProjectDirectory)\$(OutDir)' '$(MSBuildProjectDirectory)\$(Distribution)'" />
+    </Target>
+    <Target Name="ItemListMessage">
+        <Message Text="Images------------"/>
+        <Message Text="HtmlDir: %(Images.HtmlDir)"/>
+        <Message Text="HtmlPath: %(Images.HtmlPath)"/>
+        <Message Text="RelPath: %(Images.RelPath)"/>
+        <Message Text="Markdowns------------"/>
+        <Message Text="HtmlPath: %(Markdowns.HtmlPath)"/>
+        <Message Text="HtmlDir: %(Markdowns.HtmlDir)"/>
+        <Message Text="RelPath: %(Markdowns.RelPath)"/>
+    </Target>
+</Project>
