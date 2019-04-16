@@ -28,17 +28,17 @@
             <HtmlPath>$([System.String]::Copy('%(RelPath)').Replace('$(SrcDir)', '$(OutDir)'))%(Extension)</HtmlPath>
         </Images>
     </ItemGroup>
-    <Target Name="BuiltDirs">
+    <Target Name="BuildDirs">
         <MakeDir Directories="$(TmpDir)" Condition="!Exists('$(TmpDir)')" />
         <MakeDir Directories="$(OutDir)" Condition="!Exists('$(OutDir)')" />
     </Target>
-    <Target Name="Artifact" DependsOnTargets="Artifact-Images;Artifact-Htmls" />
-    <Target Name="Artifact-Images" DependsOnTargets="BuiltDirs"
+    <Target Name="Build" DependsOnTargets="Artifact-Images;Artifact-Htmls" />
+    <Target Name="Build-Images" DependsOnTargets="BuildDirs"
         Inputs="@(Images)" 
         Outputs="@(Images->'$(MSBuildProjectDirectory)\%(HtmlPath)')">
         <Copy SourceFiles="@(Images)" DestinationFiles="@(Images->'%(HtmlPath)')" />
     </Target>
-    <Target Name="CssHtml" DependsOnTargets="BuiltDirs"
+    <Target Name="CssHtml" DependsOnTargets="BuildDirs"
         Inputs="@(CssFiles)" Outputs="@(CssFiles->'%(TmpPath)')">
         <Exec WorkingDirectory="$(MSBuildProjectDirectory)" 
             Command="powershell .\NewCssHtml.ps1 -Path $(CssFile) -TargetPth &quot;%(CssFiles.TmpPath)&quot;"
@@ -46,28 +46,27 @@
                 <Output TaskParameter="Outputs" ItemName="CssHtmls" />
         </Exec>
     </Target>
-    <Target Name="Artifact-Htmls" DependsOnTargets="BuiltDirs;CssHtml"
+    <Target Name="Build-Htmls" DependsOnTargets="BuildDirs;CssHtml"
         Inputs="@(Markdowns);@(CssHtmls)" 
         Outputs="@(Markdowns->'$(MSBuildProjectDirectory)\%(HtmlPath)')">
         <!-- Pandocはディレクトリを作ってはくれない -->
         <MakeDir Directories="%(Markdowns.HtmlDir)" Condition="!Exists('%(Markdowns.HtmlDir)')" />
         <Exec Command="$(PandocPath) -s -H @(CssHtmls) --toc --metadata pagetitle=&quot;%(Markdowns.FileName)&quot; -f gfm -t html -o %(Markdowns.HtmlPath) %(Markdowns.RelPath).md"/>
     </Target>
-    <Target Name="PdfArtifact"  DependsOnTargets="Artifact"
+    <Target Name="PdfBuild"  DependsOnTargets="Build"
         Inputs="@(Markdowns)" 
         Outputs="@(Markdowns->'$(MSBuildProjectDirectory)\%(PdfPath)')">
         <MakeDir Directories="$(PdfDir)" Condition="!Exists('$PdfDir')" />
         <MakeDir Directories="%(Markdowns.PdfDir)" Condition="!Exists('%(Markdowns.PdfDir)')" />
         <Exec Command="&quot;$(ChromePath)&quot; --headless --print-to-pdf=&quot;$(MSBuildProjectDirectory)\%(Markdowns.PdfPath)&quot; $(MSBuildProjectDirectory)\%(Markdowns.HtmlPath)"/>
     </Target>
-
-    <Target Name="Cleanuped">
+    <Target Name="Clean">
         <Delete Files="$(TmpDir)\*" />
         <RemoveDir Directories="$(OutDir)" />
         <RemoveDir Directories="$(PdfDir)" />
     </Target>
-    <Target Name="ScratchArtifact" DependsOnTargets="Cleanuped;Artifact" />
-    <Target Name="ZipArtifact" DependsOnTargets="Artifact">
+    <Target Name="Rebuild" DependsOnTargets="Clean;Build" />
+    <Target Name="Zipbuild" DependsOnTargets="Build">
         <Exec Command="powershell Compress-Archive '$(MSBuildProjectDirectory)\$(OutDir)' '$(MSBuildProjectDirectory)\$(Distribution)'" />
     </Target>
 </Project>
