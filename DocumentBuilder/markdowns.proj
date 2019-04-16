@@ -2,15 +2,19 @@
 <Project DefaultTargets="Artifact" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
     <PropertyGroup>
         <SrcDir>markdown</SrcDir>
+        <CssDir>css</CssDir>
         <OutDir>html</OutDir>
         <PdfDir>pdf</PdfDir>
         <Distribution>dist.zip</Distribution>
-        <TmpDir>tmp</TmpDir>
-        <CssHtml>markdown.css.html</CssHtml>
+        <TmpDir>$(MSBuildProjectDirectory)\tmp</TmpDir>
+        <CssFile>css\markdown.css</CssFile>
+        <PandocPath>D:\Program\pandoc-2.7.2-windows-x86_64\pandoc.exe</PandocPath>
         <ChromePath>C:\Program Files (x86)\Google\Chrome\Application\chrome.exe</ChromePath>
     </PropertyGroup>
     <ItemGroup>
-        <CssHtml Include="$(CssHtml)" />
+        <CssFiles Include="$(CssFile)">
+            <TmpPath>$(TmpDir)\%(Filename)%(Extension).html</TmpPath>
+        </CssFiles>
         <Markdowns Include="$(SrcDir)\**\*.md">
             <RelPath>%(RelativeDir)%(Filename)</RelPath>
             <HtmlDir>$([System.String]::Copy('%(RelativeDir)').Replace('$(SrcDir)', '$(OutDir)'))</HtmlDir>
@@ -25,6 +29,7 @@
         </Images>
     </ItemGroup>
     <Target Name="BuiltDirs">
+        <MakeDir Directories="$(TmpDir)" Condition="!Exists('$(TmpDir)')" />
         <MakeDir Directories="$(OutDir)" Condition="!Exists('$(OutDir)')" />
     </Target>
     <Target Name="Artifact" DependsOnTargets="Artifact-Images;Artifact-Htmls" />
@@ -33,16 +38,20 @@
         Outputs="@(Images->'$(MSBuildProjectDirectory)\%(HtmlPath)')">
         <Copy SourceFiles="@(Images)" DestinationFiles="@(Images->'%(HtmlPath)')" />
     </Target>
-    <Target Name="CssFile" Inputs="@(CssHtml)" Outputs="@(CssHtml->'$(MSBuildProjectDirectory)\$(CssHtml)')">
-        <MakeDir Directories="$(TmpDir)" Condition="!Exists('$(OutDir)')" />
-        <Copy SourceFiles="@(CssHtml)" DestinationFiles="@($(CssHtml->'$(MSBuildProjectDirectory)\$(CssHtml)')" />
+    <Target Name="CssHtml" DependsOnTargets="BuiltDirs"
+        Inputs="@(CssFiles)" Outputs="@(CssFiles->'%(TmpPath)')">
+        <Exec WorkingDirectory="$(MSBuildProjectDirectory)" 
+            Command="powershell .\NewCssHtml.ps1 -Path $(CssFile) -TargetPth &quot;%(CssFiles.TmpPath)&quot;"
+            Outputs="%(CssFiles.TmpPath)">
+                <Output TaskParameter="Outputs" ItemName="CssHtmls" />
+        </Exec>
     </Target>
-    <Target Name="Artifact-Htmls" DependsOnTargets="BuiltDirs;CssFile"
-        Inputs="@(Markdowns)" 
+    <Target Name="Artifact-Htmls" DependsOnTargets="BuiltDirs;CssHtml"
+        Inputs="@(Markdowns);@(CssHtmls)" 
         Outputs="@(Markdowns->'$(MSBuildProjectDirectory)\%(HtmlPath)')">
         <!-- Pandocはディレクトリを作ってはくれない -->
         <MakeDir Directories="%(Markdowns.HtmlDir)" Condition="!Exists('%(Markdowns.HtmlDir)')" />
-        <Exec Command="pandoc -s -H $(CssHtml) --toc --metadata pagetitle=&quot;%(Markdowns.FileName)&quot; -f gfm -t html -o %(Markdowns.HtmlPath) %(Markdowns.RelPath).md"/>
+        <Exec Command="$(PandocPath) -s -H @(CssHtmls) --toc --metadata pagetitle=&quot;%(Markdowns.FileName)&quot; -f gfm -t html -o %(Markdowns.HtmlPath) %(Markdowns.RelPath).md"/>
     </Target>
     <Target Name="PdfArtifact"  DependsOnTargets="Artifact"
         Inputs="@(Markdowns)" 
@@ -53,21 +62,12 @@
     </Target>
 
     <Target Name="Cleanuped">
+        <Delete Files="$(TmpDir)\*" />
         <RemoveDir Directories="$(OutDir)" />
         <RemoveDir Directories="$(PdfDir)" />
     </Target>
     <Target Name="ScratchArtifact" DependsOnTargets="Cleanuped;Artifact" />
     <Target Name="ZipArtifact" DependsOnTargets="Artifact">
-      <Exec Command="powershell Compress-Archive '$(MSBuildProjectDirectory)\$(OutDir)' '$(MSBuildProjectDirectory)\$(Distribution)'" />
-    </Target>
-    <Target Name="ItemListMessage">
-        <Message Text="Images------------"/>
-        <Message Text="HtmlDir: %(Images.HtmlDir)"/>
-        <Message Text="HtmlPath: %(Images.HtmlPath)"/>
-        <Message Text="RelPath: %(Images.RelPath)"/>
-        <Message Text="Markdowns------------"/>
-        <Message Text="HtmlPath: %(Markdowns.HtmlPath)"/>
-        <Message Text="HtmlDir: %(Markdowns.HtmlDir)"/>
-        <Message Text="RelPath: %(Markdowns.RelPath)"/>
+        <Exec Command="powershell Compress-Archive '$(MSBuildProjectDirectory)\$(OutDir)' '$(MSBuildProjectDirectory)\$(Distribution)'" />
     </Target>
 </Project>
