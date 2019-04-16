@@ -32,12 +32,6 @@
         <MakeDir Directories="$(TmpDir)" Condition="!Exists('$(TmpDir)')" />
         <MakeDir Directories="$(OutDir)" Condition="!Exists('$(OutDir)')" />
     </Target>
-    <Target Name="Build" DependsOnTargets="Build-Images;Build-Htmls" />
-    <Target Name="Build-Images" DependsOnTargets="BuildDirs"
-        Inputs="@(Images)" 
-        Outputs="@(Images->'$(MSBuildProjectDirectory)\%(HtmlPath)')">
-        <Copy SourceFiles="@(Images)" DestinationFiles="@(Images->'%(HtmlPath)')" />
-    </Target>
     <Target Name="CssHtml" DependsOnTargets="BuildDirs"
         Inputs="@(CssFiles)" Outputs="@(CssFiles->'%(TmpPath)')">
         <Exec WorkingDirectory="$(MSBuildProjectDirectory)" 
@@ -45,6 +39,11 @@
             Outputs="%(CssFiles.TmpPath)">
                 <Output TaskParameter="Outputs" ItemName="CssHtmls" />
         </Exec>
+    </Target>
+    <Target Name="Build-Images" DependsOnTargets="BuildDirs"
+        Inputs="@(Images)" 
+        Outputs="@(Images->'$(MSBuildProjectDirectory)\%(HtmlPath)')">
+        <Copy SourceFiles="@(Images)" DestinationFiles="@(Images->'%(HtmlPath)')" />
     </Target>
     <Target Name="Build-Htmls" DependsOnTargets="BuildDirs;CssHtml"
         Inputs="@(Markdowns);@(CssHtmls)" 
@@ -56,20 +55,21 @@
             <Output TaskParameter="Outputs" ItemName="Htmls" />
         </Exec>
     </Target>
-    <Target Name="PdfBuild"  DependsOnTargets="Build"
+    <Target Name="Build" DependsOnTargets="Build-Images;Build-Htmls" />
+    <Target Name="BuildPdf"  DependsOnTargets="Build"
         Inputs="@(Markdowns);@(CssHtmls)"
         Outputs="@(Markdowns->'$(MSBuildProjectDirectory)\%(PdfPath)')">
         <MakeDir Directories="$(PdfDir)" Condition="!Exists('$PdfDir')" />
         <MakeDir Directories="%(Markdowns.PdfDir)" Condition="!Exists('%(Markdowns.PdfDir)')" />
         <Exec Command="&quot;$(ChromePath)&quot; --headless --print-to-pdf=&quot;$(MSBuildProjectDirectory)\%(Markdowns.PdfPath)&quot; $(MSBuildProjectDirectory)\%(Markdowns.HtmlPath)"/>
     </Target>
+    <Target Name="BuildZip" DependsOnTargets="Build">
+        <Exec Command="powershell Compress-Archive '$(MSBuildProjectDirectory)\$(OutDir)' '$(MSBuildProjectDirectory)\$(Distribution)'" />
+    </Target>
+    <Target Name="Rebuild" DependsOnTargets="Clean;Build" />
     <Target Name="Clean">
         <Delete Files="$(TmpDir)\*" />
         <RemoveDir Directories="$(OutDir)" />
         <RemoveDir Directories="$(PdfDir)" />
-    </Target>
-    <Target Name="Rebuild" DependsOnTargets="Clean;Build" />
-    <Target Name="Zipbuild" DependsOnTargets="Build">
-        <Exec Command="powershell Compress-Archive '$(MSBuildProjectDirectory)\$(OutDir)' '$(MSBuildProjectDirectory)\$(Distribution)'" />
     </Target>
 </Project>
