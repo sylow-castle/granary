@@ -1,0 +1,62 @@
+---
+- hosts: "localhost"
+  user: vagrant
+  become: yes
+  vars:
+    ansible_user: vagrant
+    ansible_password: vagrant
+    hostname: "ctf"
+    work_dir: "/root/ctf_files"
+    qs_users:
+      - qs01
+      - qs02
+      - qs03
+      - qs04
+      - qs05
+      - qs06
+      - qs07
+      - qs08
+      - qs09
+      - qs10
+      - qs11
+      - qs12
+      - qs13    
+  tasks:
+    - name: "必要なパッケージ"
+      yum: 
+        state: installed 
+        name: "{{ item }}"
+      with_items:
+        - httpd
+        - sqlite
+        - php
+    - name: "CTFユーザー"
+      user:
+        name: "{{ item }}"
+        state: present
+        # 毎回chengedが走るのがやだ
+        #password: "{{ item |password_hash('sha512') }}"
+      with_items: 
+        - "{{ qs_users }}"
+    - name: "exists .ssh directory"
+      file:
+        dest: "/home/{{ item }}/.ssh"
+        state: directory
+        owner: "{{ item }}"
+        group: "{{ item }}"
+        mode: 0700
+      with_items: 
+        - "{{ qs_users }}"
+    - name: "setup authorized_keys"
+      copy:
+        src: "{{ work_dir }}/commons/id_rsa_ctf.pub"
+        dest: "/home/{{ item }}/.ssh/authorized_keys"
+        owner: "{{ item }}"
+        group: "{{ item }}"
+        mode: 0600
+      with_items: 
+        - "{{ qs_users }}"
+    - name: "setup question1"
+      copy:
+        src: "{{ work_dir }}/qs01/answer.txt"
+        dest: /home/qs01/answer.txt

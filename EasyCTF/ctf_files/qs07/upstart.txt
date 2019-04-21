@@ -1,0 +1,9 @@
+description "qs07 daemon"
+author  "k.sakai"
+
+start on runlevel [2345]
+stop on runlevel [016]
+
+chdir /home/qs07
+exec bash qs07.sh flag_73360
+respawn
