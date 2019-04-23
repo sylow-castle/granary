@@ -1,4 +1,4 @@
-body {width: 297mm; font-size: 16px}
+html {width: 297mm; font-size: 16px}
 
 h6 {background-color: #3080ff; color:#ffffff; font-size:1.0em;}
 h5 {background-color: #3080ff; color:#ffffff; font-size:1.25em;}
@@ -11,7 +11,7 @@ h1, h2, h3, h4, h5, h6 {padding-left:0.3em;}
 
 pre {margin-left:1em; border-left-width: 0.25em; padding-left:0.5em; border-left-style:solid; border-left-color:#003fa3;}
 blockquote {margin-left:1em; border-left-width: 0.25em; padding-left:0.5em; border-left-style:solid; border-left-color:#627ba3}
-th {background-color: #e5f3fd; color:#ffffff}
+th {background-color: #e5f3fd; color:#000000}
 #TOC {
   border-top-width: 0.5em; padding-top:1em; border-top-style:solid; border-top-color:#3080ff;
   }

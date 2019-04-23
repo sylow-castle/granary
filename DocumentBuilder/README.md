@@ -19,11 +19,15 @@ markdownで書類を一杯書くことになってきたけど、お客さんに
 
 MSBuildはv4以上。なぜかというとプロパティ関数を使っているから。使える範囲広くしたいなぁ。
 
-1. pandocへのパスを通す。
+1. markdowns.projを編集する。PandocPathに適切なものを設定する
 1. MSBuildへのパスを通す。面倒ならMSBuildSearcher.ps1とか実行する。場所は'C:\Windows\Microsoft.NET\Framework64\v4.0.30319'とかに入ってるはず。
 1. cmdかpowershellを起動して、このファイルのディレクトリにcdする。
 1. 'msbuild markdowns.proj -t:Artifact'って打つ。
 1. 'markdown'ディレクトリ以下のmdファイルがhtmlに変換されて出てくる。インクリメンタルビルドするように実装してあるので2回たたいても安心。
+
+### Make版
+
+Coming soon... ?
 
 ### 制限
 
@@ -32,17 +36,17 @@ MSBuildはv4以上。なぜかというとプロパティ関数を使ってい�
 ### 色々
 
 * 色変えたい
-    * markdown.css.htmlいじってね
+    * markdown.cssいじってね
 * markdownディレクトリじゃなきゃダメ？
     * projファイルいじってね
 * pdfにできない？
-    * chromeへのパスを通してpdfartifactをターゲットにして実行してください。今のところインクリメンタルビルドじゃないので問題あり。
+    * chromeを使ってできます。ProjファイルのChromPathをいじってBuildPdfをターゲットにして実行してください。
 * pandocって？
     * mdをhtmlにしてくれるのに使うありがたいツール。Haskell製らしい：https://pandoc.org/
 * pandocないと使えない？
     * 今のところは。ただここ変えたい。
-* MSBuildは標準で入ってるから使うのにpandoc使うの？それ標準じゃないよね？
-    * そうですね。
+* MSBuildは標準で入ってるから使うのにChromeやpandoc使うの？それ標準じゃないよね？
+    * そうですね。Marked.jsとか使えばいいのかな。
 
 ## 参考
 
