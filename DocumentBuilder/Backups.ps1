@@ -1,26 +1,42 @@
-Param($SourceDir, $Destination, $LogDir = "", $IPG = 100, [switch]$DryRun, [switch]$Debug);
+Param($SourceDir, $Destination, $LogDir, $IPG = 100, [switch]$DryRun, [switch]$Debug);
+
+$OutputEncoding = [System.Text.Encoding]::UTF8;
 
 #引数バリデーション
 #コピー元ない
-if(!(Test-Path $SourceDir -PathType Container)) {
-    exit;
+
+if( !($SourceDir -as [bool]) -or
+    !(Test-Path $SourceDir -PathType Container)) {
+        Write-Host "Unkwnon SourceDir"
+        exit
 } 
 $src = Get-Item $SourceDir;
 
 #コピー先なければ作る
+if( !($Destination -as [bool])) {
+    Write-Host "Unkwnon Destination"
+    exit
+}
+
 if(!(Test-Path $Destination -PathType Container)) {
     New-Item -Path $Destination -ItemType Directory
+
     if(!(Test-Path $Destination -PathType Container)) {
-        exit;
+        Write-Host "Cannot Make Destination"
+        exit
     }
 }
 $dest = Get-Item $Destination;
 
 #ログ出力するのに指定されたログディレクトリが不正
-if(($LogDir -ne "") -and !(Test-Path -PathType Container -LiteralPath $LogDir)) {
-    exit;
+if(($LogDir -as [bool]) -and
+   !(Test-Path -PathType Container -LiteralPath $LogDir)) {
+
+    Write-Host "Unkwnon LogDir"
+    exit
+
+    $logs = Get-Item $LogDir
 }
-$logs = Get-Item $LogDir
 
 Filter Enclose($string) {
     ('"' + $string + '"')
@@ -34,7 +50,7 @@ if($DryRun) {
     $dryOpt = ""
 }
 
-if($LogDir -eq "") { 
+if($LogDir -as [bool]) { 
     $logOpts = "/NDL";
 } else {
     $LogName = "BackUpScript_Log_$(Get-Date -Format 'yyyy-MMdd-HHmmss').log"
@@ -49,3 +65,4 @@ if($Debug) {
     Invoke-Expression $command;
 }
 
+    
