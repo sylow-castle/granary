@@ -21,6 +21,29 @@ a:hover {color:#3080ff}
 a:visited{color:#3080ff}
 a:active{color:#1e50a2}
 
+div.tag_list li {
+  display: inline-block;
+  color: #ffffff;
+  background-color: #3080ff;
+  margin-left: 0.5em;
+  margin-top: 0.3em;
+  margin-bottom: 0.3em;
+  padding: 0.15em;
+  border-color: #3080ff;
+  border-radius: 0.25em;
+}
+
+div.tag_list li:before {
+  content:"#";
+}
+
+div.tag_list ul {
+  border-top-style: solid;
+  border-bottom-style: solid;
+  border-color: #3080ff;
+}
+
+
 h1 ~ p,h2 ~ p,h3 ~ p,h4 ~ p,h5 ~ p,h6 ~ p {
   margin-left:1em;
 }

@@ -47,8 +47,3 @@ Coming soon... ?
     * 今のところは。ただここ変えたい。
 * MSBuildは標準で入ってるから使うのにChromeやpandoc使うの？それ標準じゃないよね？
     * そうですね。Marked.jsとか使えばいいのかな。
-
-## 参考
-
-example.htmlは以下のexample.htmlを使わせていただきました。
-https://github.com/simonlc/Markdown-CSS

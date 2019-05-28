@@ -1,159 +1,120 @@
-<link rel="stylesheet" href="css/markdown.css">
-<h1>A First Level Header</h1>
-
-<h2>A Second Level Header</h2>
-
-<h3>A Third Level Header</h3>
-
-<h4>A Fourth Level Header</h4>
-
-<h5>A Fifth Level Header</h5>
-
-<h6>A Sixed Level Header</h6>
-
-<p>Now is the time for all good men to come to
-the aid of their country. This is just a
-regular paragraph.</p>
-
-<p>The quick brown fox jumped over the lazy
-dog's back.</p>
-
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>example</title>
+  <style>
+      code{white-space: pre-wrap;}
+      span.smallcaps{font-variant: small-caps;}
+      span.underline{text-decoration: underline;}
+      div.column{display: inline-block; vertical-align: top; width: 50%;}
+  </style>
+  <!--[if lt IE 9]>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
+  <![endif]-->
+  <style>
+  html {width: 297mm; font-size: 16px}
+  
+  h6 {background-color: #3080ff; color:#ffffff; font-size:1.0em;}
+  h5 {background-color: #3080ff; color:#ffffff; font-size:1.25em;}
+  h4 {background-color: #2766cc; color:#ffffff; font-size:1.50em;}
+  h3 {background-color: #2766cc; color:#ffffff; font-size:1.75em;}
+  h2 {background-color: #1e50a2; color:#ffffff; font-size:2.0em;}
+  h1 {background-color: #1e50a2; color:#ffffff; font-size:2.25em;}
+  
+  h1, h2, h3, h4, h5, h6 {padding-left:0.3em;}
+  
+  pre {margin-left:1em; border-left-width: 0.25em; padding-left:0.5em; border-left-style:solid; border-left-color:#003fa3;}
+  blockquote {margin-left:1em; border-left-width: 0.25em; padding-left:0.5em; border-left-style:solid; border-left-color:#627ba3}
+  th {background-color: #e5f3fd; color:#000000}
+  #TOC {
+    border-top-width: 0.5em; padding-top:1em; border-top-style:solid; border-top-color:#3080ff;
+    }
+  tr.odd {background-color: #dddddd;}
+  a:link {color:#1e50a2}
+  a:hover {color:#3080ff}
+  a:visited{color:#3080ff}
+  a:active{color:#1e50a2}
+  
+  div.tag_list li {
+    display: inline-block;
+    color: #ffffff;
+    background-color: #3080ff;
+    margin-left: 0.5em;
+    margin-top: 0.3em;
+    margin-bottom: 0.3em;
+    padding: 0.15em;
+    border-color: #3080ff;
+    border-radius: 0.25em;
+  }
+  
+  div.tag_list li:before {
+    content:"#";
+  }
+  
+  div.tag_list ul {
+    border-top-style: solid;
+    border-bottom-style: solid;
+    border-color: #3080ff;
+  }
+  
+  
+  h1 ~ p,h2 ~ p,h3 ~ p,h4 ~ p,h5 ~ p,h6 ~ p {
+    margin-left:1em;
+  }
+  </style>
+</head>
+<body>
+<nav id="TOC" role="doc-toc">
+<ul>
+<li><a href="#段落1">段落1</a><ul>
+<li><a href="#段落2">段落2</a><ul>
+<li><a href="#段落3">段落3</a></li>
+</ul></li>
+</ul></li>
+</ul>
+</nav>
+<h1 id="段落1">段落1</h1>
+<h2 id="段落2">段落2</h2>
+<h3 id="段落3">段落3</h3>
+<h4 id="段落4">段落4</h4>
+<h5 id="段落5">段落5</h5>
+<h6 id="段落6">段落6</h6>
+<p>てきとうな 本文を ここに書く</p>
 <hr />
-
-<h3>Header 3</h3>
-
 <blockquote>
-  <p>This is a blockquote with two paragraphs. Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aliquam hendrerit mi posuere lectus. Vestibulum enim wisi, viverra nec, fringilla in, laoreet vitae, risus.</p>
-
-  <p>Donec sit amet nisl. Aliquam semper ipsum sit amet velit. Suspendisse
-  id sem consectetuer libero luctus adipiscing.</p>
-
-  <h2>This is an H2 in a blockquote</h2>
-
-  <p>This is the first level of quoting.</p>
-
-  <blockquote>
-    <p>This is nested blockquote.</p>
-  </blockquote>
-
-  <p>Back to the first level.</p>
+<p>引用ブロックです。</p>
+<p>我思う　故に我あり</p>
+<blockquote>
+<h2 id="引用ブロック内の段落2">引用ブロック内の段落2</h2>
+<p>そして入れ子の引用ブロック</p>
 </blockquote>
-
-<p>Some of these words <em>are emphasized</em>.</p>
-
-<p>Use two asterisks for <strong>strong emphasis</strong>.
-Or, if you prefer, <strong>use two underscores instead</strong>.</p>
-
-<ul>
-<li>Candy.</li>
-<li>Gum.</li>
-<li>Booze.</li>
-<ul>
-<li><p>A list item.</p>
-<p>With multiple paragraphs.</p></li>
-<li><p>Another item in the list.</p></li>
-<li><p>This is a list item with two paragraphs. Lorem ipsum dolor
-sit amet, consectetuer adipiscing elit. Aliquam hendrerit
-mi posuere lectus.</p>
-<p>Vestibulum enim wisi, viverra nec, fringilla in, laoreet
-vitae, risus. Donec sit amet nisl. Aliquam semper ipsum
-sit amet velit.</p></li>
-</ul>
-<li><p>Suspendisse id sem consectetuer libero luctus adipiscing.</p></li>
-<li><p>This is a list item with two paragraphs.</p>
-<p>This is the second paragraph in the list item. You're
-only required to indent the first line. Lorem ipsum dolor
-sit amet, consectetuer adipiscing elit.</p></li>
-<li><p>Another item in the same list.</p></li>
-<li><p>A list item with a blockquote:</p>
-<blockquote>
-  <p>This is a blockquote inside a list item.</p>
-</blockquote></li>
-<li><p>A list item with a code block:</p>
-<pre><code>&lt;code goes here&gt;
-</code></pre></li>
-</ul>
-
-<p>Here is an example of AppleScript:</p>
-
-<pre><code>tell application "Foo"
-    beep
-end tell
-</code></pre>
-
-<p>This is an <a href="http://example.com/">example link</a>.</p>
-
-<p>I get 10 times more traffic from <a href="http://google.com/" title="Google">Google</a> than from
-<a href="http://search.yahoo.com/" title="Yahoo Search">Yahoo</a> or <a href="http://search.msn.com/" title="MSN Search">MSN</a>.</p>
-
-<p>I start my morning with a cup of coffee and
-<a href="http://www.nytimes.com/">The New York Times</a>.</p>
-
-<p><img src="image.jpg" alt="alt text" title="Title" /></p>
-
-<p><img src="image2.jpg" alt="alt text" title="Title" /></p>
-
-<p>I strongly recommend against using any <code>&lt;blink&gt;</code> tags.</p>
-
-<p>I wish SmartyPants used named entities like <code>&amp;mdash;</code>
-instead of decimal-encoded entites like <code>&amp;#8212;</code>.</p>
-
-<p>If you want your page to validate under XHTML 1.0 Strict,
-you've got to put paragraph tags in your blockquotes:</p>
-
-<pre><code>&lt;blockquote&gt;
-    &lt;p&gt;For example.&lt;/p&gt;
-&lt;/blockquote&gt;
-</code></pre>
-
-
-
-<h1>August 31, 2011</h1>
-
-<p>Homework: Problems 2.10-2.19; complete registration system</p>
-
-<hr />
-
-<h2>Chapter 2</h2>
-
-<h3>Phases of Software Development</h3>
-
-<ol>
-<li>Analysis</li>
-<li>Design</li>
-<li>Implementation</li>
-</ol>
-
-<h4>Analysis phase</h4>
-
-<p><em>Requirements</em> -- what the customer wants or needs.  Understanding on needs expressed by:</p>
+<p>元のブロックに戻る</p>
+</blockquote>
+<p>こうやって<em>強調</em>するらしい。 アスタリスク二つでより<strong>強い強調</strong>、うーん頭痛が痛い。 アンダースコア2つでも__強い強調__になる。馬から落馬した。</p>
+<p>CSSと合わせてハッシュタグのリストっぽくする作りにしてみました。</p>
+<div class="tag_list">
 
 <ul>
-<li>Use cases can (can use UML)</li>
-<li>User manual style of analysis document</li>
+<li>foo</li>
+<li>bar</li>
+<li>fiz</li>
+<li>baz</li>
 </ul>
+</div>
 
-<h4>Design phase</h4>
-
-<p>Goals of OO design:</p>
-
-<ol>
-<li>Identify classes -- things in the system</li>
-<li>Identify responsibilities of the classes</li>
-<li>Identify relationships between classes</li>
-</ol>
-
-<p>Types of class relationships:</p>
-
-<ol>
-<li>Dependency (<em>uses a</em>)</li>
-<li>Aggregation (<em>has a</em>)
-<ul><li>Aggregation -- 1:many</li>
-<li>Association -- 1:1</li>
-<li>Composition -- "<em>if I'm composed of other things, then I am considered
-responsible for the lifetime for those things</em>"</li></ul></li>
-<li>Inheritance (<em>is a</em>)</li>
-</ol>
-
-<p>Classes and relationships are the basis for a UML class diagram.</p>
-
+<ul>
+<li>おにぎり</li>
+<li>味噌汁</li>
+<li>お漬物
+<ul>
+<li>きゅうり</li>
+<li>なす</li>
+<li>たくあん</li>
+</ul></li>
+<li>焼き魚</li>
+</ul>
+</body>
+</html>

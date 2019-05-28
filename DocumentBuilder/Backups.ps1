@@ -1,4 +1,4 @@
-Param($SourceDir, $Destination, $LogDir, $IPG = 100, [switch]$DryRun, [switch]$Debug);
+﻿Param($SourceDir, $Destination, $LogDir, $IPG = 100, [switch]$DryRun, [switch]$Debug);
 
 $OutputEncoding = [System.Text.Encoding]::UTF8;
 
