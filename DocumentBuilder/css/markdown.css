@@ -22,27 +22,33 @@ a:visited{color:#3080ff}
 a:active{color:#1e50a2}
 
 div.tag_list li {
-  display: inline-block;
-  color: #ffffff;
-  background-color: #3080ff;
+  display: table-cell;
+  height: 1.5em;
+  padding: 0.3em;
   margin-left: 0.5em;
   margin-top: 0.3em;
   margin-bottom: 0.3em;
-  padding: 0.15em;
+  color: #3080ff;
+  border-style: solid;
   border-color: #3080ff;
   border-radius: 0.25em;
-}
+  border-width: 0.15em;
+  vertical-align: middle;
 
-div.tag_list li:before {
-  content:"#";
 }
 
 div.tag_list ul {
+  border-collapse: separete;
+  border-spacing: 0.5em;
   border-top-style: solid;
   border-bottom-style: solid;
   border-color: #3080ff;
 }
 
+img {
+  max-width: 95%;
+  height: auto;
+}
 
 h1 ~ p,h2 ~ p,h3 ~ p,h4 ~ p,h5 ~ p,h6 ~ p {
   margin-left:1em;

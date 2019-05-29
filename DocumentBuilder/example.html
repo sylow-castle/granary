@@ -39,27 +39,33 @@
   a:active{color:#1e50a2}
   
   div.tag_list li {
-    display: inline-block;
-    color: #ffffff;
-    background-color: #3080ff;
+    display: table-cell;
+    height: 1.5em;
+    padding: 0.3em;
     margin-left: 0.5em;
     margin-top: 0.3em;
     margin-bottom: 0.3em;
-    padding: 0.15em;
+    color: #3080ff;
+    border-style: solid;
     border-color: #3080ff;
     border-radius: 0.25em;
-  }
+    border-width: 0.15em;
+    vertical-align: middle;
   
-  div.tag_list li:before {
-    content:"#";
   }
   
   div.tag_list ul {
+    border-collapse: separete;
+    border-spacing: 0.5em;
     border-top-style: solid;
     border-bottom-style: solid;
     border-color: #3080ff;
   }
   
+  img {
+    max-width: 95%;
+    height: auto;
+  }
   
   h1 ~ p,h2 ~ p,h3 ~ p,h4 ~ p,h5 ~ p,h6 ~ p {
     margin-left:1em;
@@ -73,6 +79,9 @@
 <li><a href="#段落2">段落2</a><ul>
 <li><a href="#段落3">段落3</a></li>
 </ul></li>
+<li><a href="#引用ブロック">引用ブロック</a></li>
+<li><a href="#リスト">リスト</a></li>
+<li><a href="#大きな画像">大きな画像</a></li>
 </ul></li>
 </ul>
 </nav>
@@ -84,6 +93,7 @@
 <h6 id="段落6">段落6</h6>
 <p>てきとうな 本文を ここに書く</p>
 <hr />
+<h2 id="引用ブロック">引用ブロック</h2>
 <blockquote>
 <p>引用ブロックです。</p>
 <p>我思う　故に我あり</p>
@@ -93,18 +103,9 @@
 </blockquote>
 <p>元のブロックに戻る</p>
 </blockquote>
-<p>こうやって<em>強調</em>するらしい。 アスタリスク二つでより<strong>強い強調</strong>、うーん頭痛が痛い。 アンダースコア2つでも__強い強調__になる。馬から落馬した。</p>
-<p>CSSと合わせてハッシュタグのリストっぽくする作りにしてみました。</p>
-<div class="tag_list">
-
-<ul>
-<li>foo</li>
-<li>bar</li>
-<li>fiz</li>
-<li>baz</li>
-</ul>
-</div>
-
+<p>こうやって<em>強調</em>するらしい。 アスタリスク二つでより<strong>強い強調</strong>、うーん頭痛が痛い。<br />
+アンダースコア2つでも__強い強調__になる。馬から落馬した。 ならないじゃないか。</p>
+<h2 id="リスト">リスト</h2>
 <ul>
 <li>おにぎり</li>
 <li>味噌汁</li>
@@ -116,5 +117,36 @@
 </ul></li>
 <li>焼き魚</li>
 </ul>
+<p>CSSと合わせてタグのリストっぽくする作りにしてみました。</p>
+<div class="tag_list">
+
+<ul>
+<li>foo</li>
+<li>bar</li>
+<li>fiz</li>
+<li>baz</li>
+<li>料理</li>
+<li>おにぎり</li>
+</ul>
+</div>
+
+<p>やり方はtag_listクラスを持つdivタグで囲ってあげるだけ。<br />
+日本語と英語で高さが変わって1時間悩んだ。デザイナさんって大変。</p>
+<pre><code>&lt;div class=&quot;tag_list&quot;&gt;
+
+* foo
+* bar
+* fizz
+* bazz
+* 料理
+* おにぎり
+
+&lt;/div&gt;
+
+</code></pre>
+<h2 id="大きな画像">大きな画像</h2>
+<p>大きな画像は縮小する。何故って？A4用紙にちゃんと印刷をしたいからです。</p>
+<p>とあるプログラマの作業風景（スクリーンショット）</p>
+<p><img src="large_image_sample.png" alt="作業風景" /></p>
 </body>
 </html>
