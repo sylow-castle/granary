@@ -1,0 +1,23 @@
+{
+    "name": "Mr. Example",
+    "tips": {
+        "tips":[
+            "Java",
+            "C",
+            "PHP",
+            "JavaScript",
+            "html",
+            "PowerShell"
+        ],
+
+        "can_a_little":[
+            "Liniear Algebra",
+            "Calculus"
+        ],
+
+        "orienteds":[
+            "PowerShell",
+            "JavaScript"
+        ]
+    }
+}

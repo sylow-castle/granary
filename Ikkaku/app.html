@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="robots" content="noindex,nofollow">
+    <title>イッカク</title>
+    <style>
+        @import url(main.css);
+    </style>
+</head>
+
+<body>
+    <h1>氷山の一角</h1>
+    <div id="main_contents">
+    </div>
+    <script type="text/javascript">
+        solitude_root = window;
+    </script>
+    <script type="text/javascript" src="solitude.js"></script>
+    <script type="text/javascript" src="main.js"></script>
+    <script type="text/javascript">
+        window.onload = function () {
+            main(window);
+        };
+    </script>
+    <template id="tmpl_iceberg">
+        <div class="iceberg">
+            <h2></h2>
+            <div class="icicle can_a_little">
+                <h3>チョットデキル</h3>
+                <div class="tag_list">
+                    <ul>
+                    </ul>
+                </div>
+            </div>
+            <div class="icicle tags">
+                <h3>やったこと・知りたいこと</h3>
+                <div class="tag_list">
+                    <ul>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </template>
+    <template id="tmpl_ice">
+        <li></li>
+    </template>
+</body>
+
+</html>

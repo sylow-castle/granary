@@ -1,0 +1,60 @@
+{
+    "name": "Sylow-Castle",
+    "tips": {
+        "tips":[
+            "猫",
+            "数論",
+            "Java",
+            "html",
+            "PHP",
+            "CSS",
+            "MySQL",
+            "JavaScript",
+            "Apache",
+            "AWS",
+            "C#",
+            "postfix",
+            "Linux",
+            "Windows",
+            "PowerShell",
+            "bash",
+            "Virtual Box",
+            "Ansible",
+            "物理学",
+            "DevOps",
+            "計算機科学",
+            "応用数学",
+            "カクテル",
+            "レザークラフト",
+            "料理",
+            "代数学",
+            "解析学",
+            "幾何学",
+            "圏論",
+            "正規表現",
+            "諸子百家"
+        ],
+
+        "can_a_little":[
+            "線形代数", "微積分", "うつのきもち"
+        ],
+
+        "orienteds":[
+            "猫",
+            "数論",
+            "Java",
+            "MySQL",
+            "JavaScript",
+            "postfix",
+            "Linux",
+            "PowerShell",
+            "bash",
+            "DevOps",
+            "計算機科学",
+            "応用数学",
+            "セキュリティ",
+            "ハニーポット",
+            "心理学"
+        ]
+    }
+}
