@@ -51,28 +51,26 @@ function main(global) {
         newIceberg.querySelector("h2").innerHTML = icebergObj.name;
         var orienteds = icebergObj.tips.orienteds;
 
-        var tips = newIceberg.querySelector("div.tags ul");
-        icebergObj.tips.tips.forEach(function(elements) {
-            var ice = templates["tmpl_ice"].cloneNode();
-            tips.appendChild(ice);
-            ice.textContent = elements;
+        const tips = newIceberg.querySelector("div.tags ul");
+        discriminate(icebergObj.tips.tips, tips);
 
-            if(orienteds.lastIndexOf(elements) >= 0) {
-                ice.classList.add("oriented");
-            }
+        const can_a_little = newIceberg.querySelector("div.can_a_little ul");
+        discriminate(icebergObj.tips.can_a_little, can_a_little);
 
-        });
+        function discriminate(list, target) {
+            list.forEach(function(elements) {
+                var ice = templates["tmpl_ice"].cloneNode();
+                target.appendChild(ice);
+                ice.textContent = elements;
+                if(orienteds.lastIndexOf(elements) >= 0) {
+                    ice.classList.add("oriented");
+                }
+            
+            });
+        }
 
-        var can_a_little = newIceberg.querySelector("div.can_a_little ul");
-        icebergObj.tips.can_a_little.forEach(function(elements) {
-            var ice = templates["tmpl_ice"].cloneNode();
-            can_a_little.appendChild(ice);
-            ice.textContent = elements;
-            if(orienteds.lastIndexOf(elements) >= 0) {
-                ice.classList.add("orienteds");
-            }
 
-        });
+
     }
 
     function addRecord(icon_url, message, time) {
