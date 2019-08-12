@@ -1,0 +1,26 @@
+{
+    　　"id": "",
+        "key": "",
+        "params": {
+            "ChangeBatch": {
+              "Changes": [
+                {
+                  "Action": "UPSERT",
+                  "ResourceRecordSet": {
+                    "Name": "target.example.com",
+                    "Type": "A",
+                    "TTL": 60,
+                    "ResourceRecords": [
+                      {
+                        "Value": ""
+                      }
+                    ],
+                  }
+                }
+              ],
+              "Comment": ""
+            },
+            "HostedZoneId": ""
+          }
+    }
+    
