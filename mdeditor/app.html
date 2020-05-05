@@ -95,6 +95,7 @@
           <li><input id="choose_markdown" type="file"></li>
           <li><input id="newWindow" type="button" value="新しいウィンドウ"></li>
           <li><input id="download" type="button" value="保存"><input id="filename" type="text" value="新しいマークダウン.txt"></li>
+          <li><span class="continuous">自動更新</span><input id="continuous" type="checkbox"></li>
         </ul>
       <p></p>
       <p>
@@ -192,6 +193,23 @@
       const currentContent = document.querySelector("#editor").value;
       const currentName = document.querySelector('#filename').value;
       download(currentContent);
+    })
+
+    const autoUpdate = function() {return document.querySelector("#continuous")};;
+
+    document.querySelector("span.continuous").addEventListener('click', function() {
+      autoUpdate().click();
+    })
+
+    autoUpdate().addEventListener('change', function() {
+      console.log("changed!");
+      console.log(autoUpdate().checked);
+    });
+
+    document.querySelector('#editor').addEventListener('input', function() {
+      if(autoUpdate().checked) {
+        document.querySelector('#update').click();
+      }
     })
 
     function setContent(content) {
