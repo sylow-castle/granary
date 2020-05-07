@@ -32,7 +32,7 @@
 
     #content {
       display: inline-block;
-      width: 297mm;
+      width: 210mm;
       overflow-x: visible;
     }
 
@@ -192,7 +192,7 @@
     document.querySelector("#download").addEventListener('click', function() {
       const currentContent = document.querySelector("#editor").value;
       const currentName = document.querySelector('#filename').value;
-      download(currentContent);
+      download(currentName, currentContent);
     })
 
     const autoUpdate = function() {return document.querySelector("#continuous")};;
