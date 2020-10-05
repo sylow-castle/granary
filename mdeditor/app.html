@@ -1,6 +1,8 @@
 <!DOCTYPE html>
-<html><head>
-<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+<html>
+
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
   <meta charset="utf-8">
   <title>Marked in the browser</title>
   <style>
@@ -9,8 +11,8 @@
     }
 
     div.main_pane {
-      display: inline-block;
-      overflow: scroll;
+      display: block;
+      /*overflow: scroll;*/
       white-space: nowrap;
     }
 
@@ -49,12 +51,12 @@
       max-width: 100%;
       word-wrap: break-word;
     }
-    
+
     #content pre {
       max-width: 100%;
       white-space: pre-wrap;
     }
-    
+
     div.header {
       width: 480px;
       height: 20px;
@@ -74,14 +76,18 @@
   </style>
   <style>
     @media print {
-      div.menu_pane, div.noprint{
+
+      div.menu_pane,
+      div.noprint {
         display: none
       }
 
+      #content {
+        display: block
+      }
     }
-  
   </style>
-  </head>
+</head>
 
 <body>
   <div class="main_pane">
@@ -89,14 +95,15 @@
       <div class="header"></div>
       <div class="header indicator sleep"></div>
       <p>
-        </p><ul>
-          <li><a href="license.md">ライセンス</a></li>
-          <li><input id="update" type="button" value="更新"></li>
-          <li><input id="choose_markdown" type="file"></li>
-          <li><input id="newWindow" type="button" value="新しいウィンドウ"></li>
-          <li><input id="download" type="button" value="保存"><input id="filename" type="text" value="新しいマークダウン.txt"></li>
-          <li><span class="continuous">自動更新</span><input id="continuous" type="checkbox"></li>
-        </ul>
+      </p>
+      <ul>
+        <li><a href="license.md">ライセンス</a></li>
+        <li><input id="update" type="button" value="更新"></li>
+        <li><input id="choose_markdown" type="file"></li>
+        <li><input id="newWindow" type="button" value="新しいウィンドウ"></li>
+        <li><input id="download" type="button" value="保存"><input id="filename" type="text" value="新しいマークダウン.txt"></li>
+        <li><span class="continuous">自動更新</span><input id="continuous" type="checkbox"></li>
+      </ul>
       <p></p>
       <p>
         <textarea id="editor" cols="40" rows="undefined" wrap="off"></textarea>
@@ -105,9 +112,10 @@
     <div class="sub_pane noprint">
     </div>
     <div class="sub_pane" id="content">
-      <div id="content_parent"><h1 id="marked-in-the-browser">Marked in the browser</h1>
-<p>Rendered by <strong>marked</strong>.</p>
-</div>
+      <div id="content_parent">
+        <h1 id="marked-in-the-browser">Marked in the browser</h1>
+        <p>Rendered by <strong>marked</strong>.</p>
+      </div>
     </div>
   </div>
   <script src="lib/marked.js"></script>
@@ -117,7 +125,7 @@
       "rows": 30,
       "cols": 40,
       "wrap": "off",
-      "md_compiler" : marked
+      "md_compiler": marked
     };
 
     config = {};
@@ -127,10 +135,10 @@
       config.wrap = conf.wrap || default_conf.wrap;
       config.md_compiler = conf.md_compiler || default_conf.md_compiler;
     }
-    
+
     function draggableMenu() {
 
-      
+
       function indicateDropPosition(position) {
         let indicator = document.querySelector("div.indicator")
         indicator.style.top.position.y;
@@ -144,9 +152,9 @@
 
       }
 
-    } 
+    }
 
-    window.onload = function main () {
+    window.onload = function main() {
       setContent('# Marked in the browser\n\nRendered by **marked**.');
       var editor = document.querySelector("#editor");
       editor.setAttribute('cols', config.cols);
@@ -154,7 +162,7 @@
       editor.setAttribute('wrap', config.wrap);
       LoadMainData()
 
-      document.getElementById("choose_markdown").addEventListener("change", function() {
+      document.getElementById("choose_markdown").addEventListener("change", function () {
         var files = document.getElementById('choose_markdown').files;
         for (var i = 0; i < files.length; i++) {
           var file = files[i];
@@ -164,24 +172,24 @@
           console.log("Date: " + file.lastModified);
           console.log("Date: " + file.lastModifiedDate);
           var reader = new FileReader();
-          reader.onprogress = function(evt) {
+          reader.onprogress = function (evt) {
             console.log("State: " + target.readyState);
             console.log("Loaded: " + evt.loaded);
             console.log("Total: " + evt.total);
           };;
-          reader.onload = function(evt) {
+          reader.onload = function (evt) {
             console.log("State: " + evt.target.readyState);
             console.log("Result: " + evt.target.result);
             document.getElementById("editor").value = evt.target.result;
           };
-          reader.onerror = function(evt) {
+          reader.onerror = function (evt) {
             console.log(evt.target.error.name);
           };
           reader.readAsText(file, "utf-8");
-      }
+        }
 
 
-  });      
+      });
     };
 
     document.querySelector("#update").addEventListener('click', function () {
@@ -189,25 +197,25 @@
       setContent(currentContent);
     });
 
-    document.querySelector("#download").addEventListener('click', function() {
+    document.querySelector("#download").addEventListener('click', function () {
       const currentContent = document.querySelector("#editor").value;
       const currentName = document.querySelector('#filename').value;
       download(currentName, currentContent);
     })
 
-    const autoUpdate = function() {return document.querySelector("#continuous")};;
+    const autoUpdate = function () { return document.querySelector("#continuous") };;
 
-    document.querySelector("span.continuous").addEventListener('click', function() {
+    document.querySelector("span.continuous").addEventListener('click', function () {
       autoUpdate().click();
     })
 
-    autoUpdate().addEventListener('change', function() {
+    autoUpdate().addEventListener('change', function () {
       console.log("changed!");
       console.log(autoUpdate().checked);
     });
 
-    document.querySelector('#editor').addEventListener('input', function() {
-      if(autoUpdate().checked) {
+    document.querySelector('#editor').addEventListener('input', function () {
+      if (autoUpdate().checked) {
         document.querySelector('#update').click();
       }
     })
@@ -218,7 +226,7 @@
 
     function compile(content) {
       return DOMPurify.sanitize(marked(content))
-        //return config.md_compiler(markdown);
+      //return config.md_compiler(markdown);
     }
 
     function LoadMainData() {
@@ -240,17 +248,16 @@
     }
 
     function download(filename, content) {
-      const blob = new Blob([content], {"type": "text/plain"});
+      const blob = new Blob([content], { "type": "text/plain" });
       const link = document.createElement('a');
-      
+
       link.href = window.URL.createObjectURL(blob);
-      link.download=filename;
+      link.download = filename;
       link.click()
     }
 
-    
+
   </script>
-  <script src="Marked%20in%20the%20browser_files/config.js"></script>
+</body>
 
-
-</body></html>
+</html>
