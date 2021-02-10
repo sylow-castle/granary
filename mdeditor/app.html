@@ -101,6 +101,7 @@
         <li><input id="update" type="button" value="更新"></li>
         <li><input id="choose_markdown" type="file"></li>
         <li><input id="newWindow" type="button" value="新しいウィンドウ"></li>
+        <li>基底フォルダ<input id="currentDir" type="text" value=""></li>
         <li><input id="download" type="button" value="保存"><input id="filename" type="text" value="新しいマークダウン.txt"></li>
         <li><span class="continuous">自動更新</span><input id="continuous" type="checkbox"></li>
       </ul>
@@ -221,7 +222,9 @@
     })
 
     function setContent(content) {
+      const baseDir = document.querySelector("#currentDir").value
       document.querySelector('#content_parent').innerHTML = compile(content);
+      changeDir(document.querySelector('#content_parent'), baseDir)
     }
 
     function compile(content) {
@@ -256,6 +259,19 @@
       link.click()
     }
 
+    function changeDir(html, currentDir) {
+      const target = html.querySelectorAll("img");
+      if(target === null) {
+        return html;
+      }
+
+      target.forEach(function(elem) {
+        let uri = currentDir + elem.getAttribute('src');
+        elem.setAttribute('src', uri);
+      })
+
+      return html;
+    }
 
   </script>
 </body>
