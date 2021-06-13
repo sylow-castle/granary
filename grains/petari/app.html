@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="" lang=""><head>
+  <meta charset="utf-8">
+  <title>keywords</title>
+  <style>
+    @import url(css/main.css);
+  </style>
+</head>
+
+<body>
+  <h1>キーワード一覧</h1>
+  <h2>メニュー</h2>
+  <div id="command">
+    <form name="command_menu">
+      <div>
+        <input type="button" value="保存" id="save"><span id="add_result"></span>
+      </div>
+      <div>
+        <input type="button" value="追加" id="add">
+        <select name="category">
+          <option selected="" value="cat_todo">ToDo</option>
+          <option value="cat_favorite">お気に入り</option>
+          <option value="cat_url">URL</option>
+          <option value="cat_intution">思い付き</option>
+        </select>
+        <input name="keyword" type="text" placeholder="キーワード">
+        <input name="url" type="text" placeholder="URL">
+      </div>
+    </form>
+  </div>
+  <h2>お気に入り</h2>
+  <div id="cat_favorite" class="tag_list">
+    <ul>
+      <li><span class="remove"></span><a href="https://www.w3.org/"><span class="label">W3C</span></a></li>
+      <li><span class="remove"></span><a href="https://google.com/"><span class="label">Google</span></a></li>
+        
+    </ul>    
+  </div>
+  <h2>ToDo</h2>
+  <div id="cat_todo" class="tag_list">
+    <ul>
+    </ul>    
+  </div>
+  <h2>URL</h2>
+  <div id="cat_url" class="tag_list">
+    <ul>
+      <li><span class="remove"></span><span class="label"><a href="https://github.com/">GitHub</a><span></span></span></li>
+    </ul>
+  </div>
+  <h2>思い付き</h2>
+  <div id="cat_intution" class="tag_list">
+    <ul>
+      <li><span class="remove"></span><span class="label">lattice based access control</span></li>
+    </ul>
+  </div>
+  <template id="tag_templates">
+    <li><span class="remove"></span><span class="label"></span></li>
+  </template>
+  <template id="link_tag_templates">
+    <li><span class="remove"></span><a href="#"><span class="label"></span></a></li>
+  </template>
+  <script src="js/main.js"></script>
+  <script>
+    window.onload = main;
+  </script>
+
+
+
+
+</body></html>
