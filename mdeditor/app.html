@@ -167,11 +167,6 @@
         var files = document.getElementById('choose_markdown').files;
         for (var i = 0; i < files.length; i++) {
           var file = files[i];
-          console.log("Name: " + file.name);
-          console.log("Size: " + file.size);
-          console.log("Type: " + file.type);
-          console.log("Date: " + file.lastModified);
-          console.log("Date: " + file.lastModifiedDate);
           var reader = new FileReader();
           reader.onprogress = function (evt) {
             console.log("State: " + target.readyState);
@@ -189,8 +184,17 @@
           reader.readAsText(file, "utf-8");
         }
 
-
       });
+
+
+      document.querySelector('#editor').addEventListener('paste', (event) => {
+        console.log(event);
+        let paste = (event.clipboardData || window.clipboardData).getData('image/png');
+        console.log(paste);
+      });
+
+
+
     };
 
     document.querySelector("#update").addEventListener('click', function () {
